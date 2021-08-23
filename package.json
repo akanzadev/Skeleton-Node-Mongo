@@ -1,0 +1,42 @@
+{
+  "name": "05-rest-server",
+  "version": "1.0.0",
+  "description": "Rest Server",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --silent --detectOpenHandles",
+    "dev": "nodemon src/",
+    "start": "node src/",
+    "lint": "eslint . --fix"
+  },
+  "keywords": [],
+  "author": "Jeancarlo Mamani <jeancarlosmamanilingan@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@hapi/boom": "^9.1.4",
+    "@hapi/joi": "^17.1.1",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.13.7",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.24.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.1.0",
+    "jest": "^27.0.6",
+    "supertest": "^6.1.6"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akanzadev/Squeleton-Basic-Node.git"
+  },
+  "bugs": {
+    "url": "https://github.com/akanzadev/Squeleton-Basic-Node/issues"
+  },
+  "homepage": "https://github.com/akanzadev/Squeleton-Basic-Node#readme"
+}
