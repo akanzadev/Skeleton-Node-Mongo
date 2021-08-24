@@ -4,10 +4,13 @@
   "description": "Rest Server",
   "main": "index.js",
   "scripts": {
-    "test": "jest --silent --detectOpenHandles",
+    "test": "jest .",
+    "test:doh": "jest . --detectOpenHandles",
+    "test:silent": "jest . --silent ",
     "dev": "nodemon src/",
     "start": "node src/",
-    "lint": "eslint . --fix"
+    "lint": "eslint . --fix",
+    "cover": "nyc npm run test"
   },
   "keywords": [],
   "author": "Jeancarlo Mamani <jeancarlosmamanilingan@gmail.com>",
