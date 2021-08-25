@@ -8,7 +8,7 @@
     "test:doh": "jest . --detectOpenHandles",
     "test:silent": "jest . --silent ",
     "dev": "nodemon src/",
-    "start": "node src/",
+    "start": "node src/index.js",
     "lint": "eslint . --fix",
     "cover": "nyc npm run test"
   },
