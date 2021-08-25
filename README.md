@@ -1,6 +1,6 @@
 # Squeleton Node
 
-Para instalar dependencias :
+Para instalar dependencias:
 
 ```bash
 npm install
