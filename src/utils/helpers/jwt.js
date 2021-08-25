@@ -8,7 +8,6 @@ const generatedJwt = (uid) => {
       expiresIn: config.JWT.TOKEN_EXPIRATION
     }, (err, token) => {
       if (err) {
-        console.log('Error al generar jwt')
         reject(err)
       } else {
         resolve(token)
@@ -18,8 +17,15 @@ const generatedJwt = (uid) => {
 }
 
 const decodedJwt = (token) => {
-  const decoded = jwt.verify(token, process.env.JWT_SECRET)
-  return decoded
+  return new Promise((resolve, reject) => {
+    jwt.verify(token, config.JWT.TOKEN_SECRET, (err, decoded) => {
+      if (err) {
+        reject(err)
+      } else {
+        resolve(decoded)
+      }
+    })
+  })
 }
 
 module.exports = { generatedJwt, decodedJwt }

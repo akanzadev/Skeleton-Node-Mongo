@@ -1,6 +1,6 @@
 const { Router } = require('express')
-const { authSchema } = require('../utils/schemas/auth.schema')
-const validationHandler = require('../utils/middlewares/validationHandler')
+const { authSchema } = require('../utils/schemas')
+const { validationHandler } = require('../utils/middlewares')
 
 const {
   authUser

@@ -34,10 +34,9 @@ const UserSchema = new Schema({
 })
 
 UserSchema.methods.toJSON = function () {
-  const { __v, password, ...data } = this.toObject()
-  const user = { id: data._id, ...data }
-  delete user._id
-  return user
+  const { _id, __v, password, ...usuario } = this.toObject()
+  usuario.uid = _id
+  return usuario
 }
 
 const User = model('User', UserSchema)

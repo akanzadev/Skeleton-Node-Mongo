@@ -1,11 +1,6 @@
 const { Router } = require('express')
-const validationHandler = require('../utils/middlewares/validationHandler')
-const {
-  createUserSchema,
-  updateUserSchema,
-  idSchema,
-  getUsersSchema
-} = require('../utils/schemas/user.schema')
+const { validateJwt, validateRole, validationHandler } = require('../utils/middlewares')
+const { jwtSchema, createUserSchema, getUsersSchema, updateUserSchema, idSchema } = require('../utils/schemas')
 
 const {
   getUsers,
@@ -29,8 +24,10 @@ router.put(
   putUser
 )
 router.patch('/:id', patchUser)
-router.delete('/:id', [
-  validationHandler(idSchema, 'params')
+router.delete('/:id', [validationHandler(jwtSchema, 'headers'),
+  validationHandler(idSchema, 'params'),
+  validateJwt,
+  validateRole('USER', 'ADMIN')
 ], deleteUser)
 
 module.exports = router
