@@ -1,4 +1,4 @@
-const Joi = require('@hapi/Joi')
+const Joi = require('joi')
 
 const userEmailSchema = Joi.string().email()
 const userPasswordSchema = Joi.string().min(3).max(30)

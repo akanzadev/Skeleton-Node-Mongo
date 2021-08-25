@@ -1,4 +1,4 @@
-const Joi = require('@hapi/Joi')
+const Joi = require('joi')
 
 const userIdSchema = Joi.string().regex(/^[0-9a-fA-F]{24}$/)
 const userNameSchema = Joi.string().alphanum().min(3).max(30)
