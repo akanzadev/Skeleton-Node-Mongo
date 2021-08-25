@@ -9,8 +9,7 @@
     "test:silent": "jest . --silent ",
     "dev": "nodemon src/",
     "start": "node src/index.js",
-    "lint": "eslint . --fix",
-    "cover": "nyc npm run test"
+    "lint": "eslint . --fix"
   },
   "keywords": [],
   "author": "Jeancarlo Mamani <jeancarlosmamanilingan@gmail.com>",
