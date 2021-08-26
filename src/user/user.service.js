@@ -44,6 +44,19 @@ const updateUser = async ({ id }, user) => {
   return updatedUser
 }
 
+const getUser = async (id) => {
+  // Obtener usuarios
+  const user = await User.findById(id)
+  if (!user) {
+    const error = new Error('User not found')
+    throw boom.boomify(error, {
+      statusCode: 404
+    })
+  }
+  // Devolver usuarios
+  return user
+}
+
 const listUsers = async ({ skip = 0, limit = 2 }) => {
   // Obtener usuarios
   const users = await User.find({ status: true }).skip(Number(skip)).limit(Number(limit))
@@ -77,5 +90,6 @@ module.exports = {
   createUser,
   updateUser,
   listUsers,
-  desactivateUser
+  desactivateUser,
+  getUser
 }

@@ -13,6 +13,10 @@ const config = {
   JWT: {
     TOKEN_SECRET: process.env.TOKEN_SECRET || 'dev',
     TOKEN_EXPIRATION: process.env.TOKEN_EXPIRATION || '1h'
+  },
+  GOOGLE: {
+    CLIENT_ID: process.env.GOOGLE_CLIENT_ID || '',
+    CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET || ''
   }
 }
 

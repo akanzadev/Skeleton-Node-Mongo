@@ -2,7 +2,7 @@ const handleSuccess = (res, req, body, message, status = 200) => {
   res.status(status).json({
     status,
     message,
-    body
+    ...body
   })
 }
 const handleError = (res, req, message, error, status = 500) => {
