@@ -1,8 +1,8 @@
-const handleSuccess = (res, req, body, message, status = 200) => {
+const handleSuccess = (res, req, data, message, status = 200) => {
   res.status(status).json({
     status,
     message,
-    ...body
+    data
   })
 }
 const handleError = (res, req, message, error, status = 500) => {

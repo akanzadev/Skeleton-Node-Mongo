@@ -34,7 +34,6 @@ const loginGoogle = async ({ email, avatar, name }) => {
   if (!user) {
     // Crear usuario
     const newUser = await createUser(userData)
-    console.log(newUser)
     const token = await generatedJwt(newUser._id)
     return { user: newUser, token }
   } else {
