@@ -21,7 +21,7 @@ const createUser = async (user) => {
   return newUser
 }
 
-const updateUser = async ({ id }, user) => {
+const updateUser = async ({ id }, user, file) => {
   // Validar email
   const emailExist = await User.findOne({ email: user.email })
   if (emailExist && emailExist._id !== id) {
@@ -30,6 +30,7 @@ const updateUser = async ({ id }, user) => {
       statusCode: 400
     })
   }
+  // Renombra imagen
   // Actualizar usuario
   const updatedUser = await User.findByIdAndUpdate(id, user, {
     new: true
@@ -44,13 +45,20 @@ const updateUser = async ({ id }, user) => {
   return updatedUser
 }
 
-const getUser = async (id) => {
+const findUser = async ({ id }) => {
   // Obtener usuarios
   const user = await User.findById(id)
   if (!user) {
     const error = new Error('User not found')
     throw boom.boomify(error, {
       statusCode: 404
+    })
+  }
+  // Validar estado
+  if (!user.status) {
+    const error = new Error('User not active')
+    throw boom.boomify(error, {
+      statusCode: 400
     })
   }
   // Devolver usuarios
@@ -91,5 +99,5 @@ module.exports = {
   updateUser,
   listUsers,
   desactivateUser,
-  getUser
+  findUser
 }

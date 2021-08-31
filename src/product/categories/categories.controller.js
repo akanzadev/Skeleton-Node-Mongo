@@ -14,8 +14,8 @@ const getCategory = async (req = request, res = response, next) => {
 const getCategories = async (req = request, res = response, next) => {
   try {
     // Obtener queryparams de paginacion
-    const users = await listCategories(req.query)
-    handleSuccess(res, req, users, 'List of categories', 200)
+    const categories = await listCategories(req.query)
+    handleSuccess(res, req, categories, 'List of categories', 200)
   } catch (error) {
     next(error)
   }
@@ -23,8 +23,8 @@ const getCategories = async (req = request, res = response, next) => {
 const postCategory = async (req = request, res = response, next) => {
   try {
     const { name } = req.body
-    const { _id: usuario } = req.user
-    const newCategory = await createCategory({ name, usuario })
+    const { _id: user } = req.user
+    const newCategory = await createCategory({ name, user })
     handleSuccess(res, req, newCategory, 'Category created', 201)
   } catch (error) {
     next(error)

@@ -1,7 +1,7 @@
 const Joi = require('joi')
 
 const categoryId = Joi.string().regex(/^[0-9a-fA-F]{24}$/)
-const categoryName = Joi.string().alphanum().min(3).max(30)
+const categoryName = Joi.string().min(3).max(30)
 const categorySkip = Joi.number().integer().min(0)
 const categoryLimit = Joi.number().integer().min(1).max(50)
 

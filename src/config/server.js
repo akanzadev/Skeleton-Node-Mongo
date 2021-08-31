@@ -8,6 +8,7 @@ const connection = require('../database/connection')
 const {
   logErrors,
   errorHandler,
+  checkMulterError,
   wrapErrors
 } = require('../utils/middlewares/errorHandler')
 const notFoundHandler = require('../utils/middlewares/notFoundHandler')
@@ -46,12 +47,20 @@ class Server {
   routes () {
     this.app.use('/api/auth', require('../auth/auth.routes'))
     this.app.use('/api/users', require('../user/user.routes'))
-    // this.app.use('/api/products', require('../product/products/products.routes'))
-    this.app.use('/api/categories', require('../product/categories/categories.routes'))
+    this.app.use(
+      '/api/categories',
+      require('../product/categories/categories.routes')
+    )
+    this.app.use(
+      '/api/products',
+      require('../product/products/products.routes')
+    )
+    this.app.use('/api/search', require('../search/search.routes'))
   }
 
   errorHandler () {
     this.app.use(logErrors)
+    this.app.use(checkMulterError)
     this.app.use(wrapErrors)
     this.app.use(errorHandler)
   }

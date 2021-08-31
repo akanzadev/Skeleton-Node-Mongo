@@ -1,33 +1,52 @@
 const { Router } = require('express')
-const { createCategorySchema, getCategoriesSchema, getCategorySchema } = require('../../utils/schemas')
-const { validateJwt, validateRole, validationHandler } = require('../utils/middlewares')
-
+const { validationHandler, validateJwt } = require('../../utils/middlewares')
 const {
-  getUsers,
-  postUser,
-  putUser,
-  deleteUser,
-  patchUser,
-  getUser
-} = require('./user.controller')
+  createProductSchema,
+  idProductSchema,
+  updateProductSchema
+} = require('../../utils/schemas')
+const {
+  postProducts,
+  getProducts,
+  getProduct,
+  deleteProduct,
+  putProduct
+} = require('./products.controller')
 
 const router = Router()
-router.get('/:id', [validationHandler(getCategorySchema, 'params')], getUser)
-router.get('/', [validationHandler(getCategoriesSchema, 'query')], getUsers)
-router.post('/', [validationHandler(createCategorySchema, 'body')], postUser)
+
+// Crear un producto
+router.post(
+  '/',
+  [
+    validateJwt,
+    validationHandler(createProductSchema, 'body')
+  ],
+  postProducts
+)
+// Listar products
+router.get('/', getProducts)
+// Obtener un producto
+router.get(
+  '/:id',
+  [validationHandler(idProductSchema, 'params')],
+  getProduct
+)
+// Eliminar un producto
+router.delete(
+  '/:id',
+  [validateJwt, validationHandler(idProductSchema, 'params')],
+  deleteProduct
+)
+// Actualizar un producto
 router.put(
   '/:id',
   [
-    validationHandler(idSchema, 'params'),
-    validationHandler(updateUserSchema, 'body')
+    validateJwt,
+    validationHandler(idProductSchema, 'params'),
+    validationHandler(updateProductSchema, 'body')
   ],
-  putUser
+  putProduct
 )
-router.patch('/:id', patchUser)
-router.delete('/:id', [validationHandler(jwtSchema, 'headers'),
-  validationHandler(idSchema, 'params'),
-  validateJwt,
-  validateRole('USER', 'ADMIN')
-], deleteUser)
 
 module.exports = router

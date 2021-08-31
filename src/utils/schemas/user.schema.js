@@ -1,41 +1,42 @@
 const Joi = require('joi')
 
-const userIdSchema = Joi.string().regex(/^[0-9a-fA-F]{24}$/)
-const userNameSchema = Joi.string().alphanum().min(3).max(30)
-const userEmailSchema = Joi.string().email()
-const userPasswordSchema = Joi.string().min(3).max(30)
-const userAvatarSchema = Joi.string().uri()
-const userRoleSchema = Joi.string().valid('ADMIN', 'USER')
-const userSkipSchema = Joi.number().integer().min(0)
-const userLimitSchema = Joi.number().integer().min(1).max(50)
-
-const idSchema = Joi.object({
-  id: userIdSchema.required()
+const userId = Joi.string().regex(/^[0-9a-fA-F]{24}$/)
+const userName = Joi.string().alphanum().min(3).max(30)
+const userEmail = Joi.string().email()
+const userPassword = Joi.string().min(3).max(30)
+const userAvatar = Joi.string().uri()
+const userRole = Joi.string().valid('ADMIN', 'USER')
+const userSkip = Joi.number().integer().min(0)
+const userLimit = Joi.number().integer().min(1).max(50)
+/* const userImage = Joi.string().uri()
+ */
+const idUserSchema = Joi.object({
+  id: userId.required()
 })
 
 const getUsersSchema = Joi.object({
-  skip: userSkipSchema,
-  limit: userLimitSchema
+  skip: userSkip,
+  limit: userLimit
 })
 
 const createUserSchema = Joi.object({
-  name: userNameSchema.required(),
-  password: userPasswordSchema.required(),
-  email: userEmailSchema.required(),
-  role: userRoleSchema.required()
+  name: userName.required(),
+  password: userPassword.required(),
+  email: userEmail.required(),
+  role: userRole.required()
 })
 
 const updateUserSchema = Joi.object({
-  name: userNameSchema,
-  email: userEmailSchema,
-  password: userPasswordSchema,
-  avatar: userAvatarSchema,
-  role: userRoleSchema
+  name: userName,
+  email: userEmail,
+  password: userPassword,
+  avatar: userAvatar,
+  role: userRole
 })
 
 module.exports = {
   createUserSchema,
-  idSchema,
+  idUserSchema,
   updateUserSchema,
   getUsersSchema
 }

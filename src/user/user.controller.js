@@ -1,16 +1,15 @@
 const { response, request } = require('express')
-const { createUser, updateUser, listUsers, desactivateUser } = require('./user.service')
+const { createUser, updateUser, listUsers, desactivateUser, findUser } = require('./user.service')
 const { handleSuccess } = require('../config/response')
 
-const getUser = (req = request, res = response) => {
-  const { q, nombre, apikey } = req.query
-  res.json({
-    ok: true,
-    message: 'getUser',
-    q,
-    nombre,
-    apikey
-  })
+const getUser = async (req = request, res = response, next) => {
+  try {
+    const { params: id } = req
+    const user = await findUser(id)
+    handleSuccess(res, req, user, 'User', 200)
+  } catch (error) {
+    next(error)
+  }
 }
 const getUsers = async (req = request, res = response, next) => {
   try {

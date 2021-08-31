@@ -1,95 +1,109 @@
-const User = require('./user.model')
-const bcryptjs = require('bcryptjs')
 const boom = require('@hapi/boom')
-const createUser = async (user) => {
-  // Validar email
-  const emailExist = await User.findOne({ email: user.email })
-  if (emailExist) {
-    const error = new Error('Email already registered')
+const { findCategory } = require('../categories/categories.service')
+const Product = require('./products.model')
+const createProduct = async (product) => {
+  // Validar producto
+  const productExist = await Product.findOne({ name: product.name })
+  if (productExist) {
+    const error = new Error('Product already registered')
     throw boom.boomify(error, {
       statusCode: 400
     })
   }
-  // Crear usuario con modelo
-  const newUser = new User(user)
-  // Encriptar contraseña
-  const salt = bcryptjs.genSaltSync(10)
-  newUser.password = bcryptjs.hashSync(user.password, salt)
-  // Guardar usuario
-  await newUser.save()
-  // Devolver usuario
-  return newUser
+  // Validar categoria
+  await findCategory(product.category)
+  // Crear producto con modelo
+  const newProduct = new Product(product)
+  // Guardar producto
+  await newProduct.save()
+  // Devolver producto
+  return newProduct
 }
 
-const updateUser = async ({ id }, user) => {
-  // Validar email
-  const emailExist = await User.findOne({ email: user.email })
-  if (emailExist && emailExist._id !== id) {
-    const error = new Error('Email already registered')
+const updateProduct = async (id, product) => {
+  // Validar producto
+  const productExist = await Product.findOne({ name: product.name })
+  if (productExist && productExist._id !== id) {
+    const error = new Error('Product already registered')
     throw boom.boomify(error, {
       statusCode: 400
     })
   }
-  // Actualizar usuario
-  const updatedUser = await User.findByIdAndUpdate(id, user, {
+  // Validar si esta desactivado
+  const productDesactivate = await Product.findOne({ _id: id, status: false })
+  if (productDesactivate) {
+    const error = new Error('Product already desactivated')
+    throw boom.boomify(error, {
+      statusCode: 400
+    })
+  }
+
+  // Actualizar producto
+  const updatedProduct = await Product.findByIdAndUpdate(id, product, {
     new: true
   })
-  if (!updatedUser) {
-    const error = new Error('User not found')
+  if (!updatedProduct) {
+    const error = new Error('Product not found')
     throw boom.boomify(error, {
       statusCode: 404
     })
   }
-  // Devolver usuario
-  return updatedUser
+  // Devolver productos
+  return updatedProduct
 }
 
-const getUser = async (id) => {
-  // Obtener usuarios
-  const user = await User.findById(id)
-  if (!user) {
-    const error = new Error('User not found')
+const findProduct = async (id) => {
+  // Obtener producto
+  const product = await Product.findOne({ _id: id, status: true })
+  if (!product) {
+    const error = new Error('Product not found')
     throw boom.boomify(error, {
       statusCode: 404
     })
   }
-  // Devolver usuarios
-  return user
+  // Devolver producto
+  return product
 }
 
-const listUsers = async ({ skip = 0, limit = 2 }) => {
-  // Obtener usuarios
-  const users = await User.find({ status: true }).skip(Number(skip)).limit(Number(limit))
-  const countDocument = await User.countDocuments({ status: true })
-  if (!users) {
-    const error = new Error('Users not found')
+const listProducts = async ({ skip = 0, limit = 5 }) => {
+  // Obtener productos
+  const products = await Product.find({ status: true })
+    .skip(Number(skip))
+    .limit(Number(limit))
+  const countDocument = await Product.countDocuments({ status: true })
+  if (!products) {
+    const error = new Error('Products not found')
     throw boom.boomify(error, {
       statusCode: 404
     })
   }
-  // Devolver usuarios
-  return { docs: countDocument, users }
+  // Devolver productos
+  return { docs: countDocument, products }
 }
 
-const desactivateUser = async ({ id }) => {
-  // Eliminar usuario
-  const deletedUser = await User.findByIdAndUpdate(id, { status: false }, {
-    new: true
-  })
-  if (!deletedUser) {
-    const error = new Error('User not found')
+const desactivateProduct = async ({ id }) => {
+  // Eliminar producto
+  const deletedProduct = await Product.findByIdAndUpdate(
+    id,
+    { status: false },
+    {
+      new: true
+    }
+  )
+  if (!deletedProduct) {
+    const error = new Error('Product not found')
     throw boom.boomify(error, {
       statusCode: 404
     })
   }
-  // Devolver usuario
-  return deletedUser
+  // Devolver producto
+  return deletedProduct
 }
 
 module.exports = {
-  createUser,
-  updateUser,
-  listUsers,
-  desactivateUser,
-  getUser
+  createProduct,
+  updateProduct,
+  listProducts,
+  desactivateProduct,
+  findProduct
 }

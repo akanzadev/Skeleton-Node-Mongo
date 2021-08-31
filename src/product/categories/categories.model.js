@@ -3,7 +3,8 @@ const { Schema, model } = require('mongoose')
 const CategorySchema = new Schema({
   name: {
     type: String,
-    required: [true, 'Name is required']
+    required: [true, 'Name is required'],
+    unique: true
   },
 
   status: {
@@ -11,18 +12,16 @@ const CategorySchema = new Schema({
     default: true,
     required: [true, 'Status is required']
   },
-  usuario: {
+  user: {
     type: Schema.Types.ObjectId,
     ref: 'User',
     required: [true, 'Usuario is required']
   }
-
 })
 
 CategorySchema.methods.toJSON = function () {
-  const { _id, __v, ...category } = this.toObject()
-  category.uid = _id
-  console.log(category)
+  const { _id, status, __v, ...category } = this.toObject()
+  category.id = _id
   return category
 }
 
