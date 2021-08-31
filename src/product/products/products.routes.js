@@ -1,5 +1,10 @@
 const { Router } = require('express')
-const { validationHandler, validateJwt } = require('../../utils/middlewares')
+const {
+  validationHandler,
+  validateJwt,
+  uploadHandler,
+  uploadImageHandler
+} = require('../../utils/middlewares')
 const {
   createProductSchema,
   idProductSchema,
@@ -18,20 +23,13 @@ const router = Router()
 // Crear un producto
 router.post(
   '/',
-  [
-    validateJwt,
-    validationHandler(createProductSchema, 'body')
-  ],
+  [validateJwt, validationHandler(createProductSchema, 'body')],
   postProducts
 )
 // Listar products
 router.get('/', getProducts)
 // Obtener un producto
-router.get(
-  '/:id',
-  [validationHandler(idProductSchema, 'params')],
-  getProduct
-)
+router.get('/:id', [validationHandler(idProductSchema, 'params')], getProduct)
 // Eliminar un producto
 router.delete(
   '/:id',
@@ -44,7 +42,9 @@ router.put(
   [
     validateJwt,
     validationHandler(idProductSchema, 'params'),
-    validationHandler(updateProductSchema, 'body')
+    validationHandler(updateProductSchema, 'body'),
+    uploadHandler,
+    uploadImageHandler
   ],
   putProduct
 )
