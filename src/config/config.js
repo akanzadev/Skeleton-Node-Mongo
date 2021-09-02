@@ -17,6 +17,11 @@ const config = {
   GOOGLE: {
     CLIENT_ID: process.env.GOOGLE_CLIENT_ID || '',
     CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET || ''
+  },
+  CLOUDINARY: {
+    CLOUD_NAME: process.env.CLOUDINARY_NAME || '',
+    API_KEY: process.env.CLOUDINARY_API_KEY || '',
+    API_SECRET: process.env.CLOUDINARY_API_SECRET || ''
   }
 }
 

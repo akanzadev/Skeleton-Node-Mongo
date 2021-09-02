@@ -16,7 +16,9 @@ const UserSchema = new Schema({
   },
   image: {
     type: String,
-    required: false
+    required: false,
+    default:
+      'https://res.cloudinary.com/akanza/image/upload/v1630443100/rest-node-server/defaults/no-image_hxuirf.jpg'
   },
   role: {
     type: String,

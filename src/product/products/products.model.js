@@ -33,7 +33,8 @@ const ProductSchema = new Schema({
     default: true
   },
   image: {
-    type: String
+    type: String,
+    default: 'https://res.cloudinary.com/akanza/image/upload/v1630443100/rest-node-server/defaults/no-image_hxuirf.jpg'
   }
 })
 
